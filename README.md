@@ -4,7 +4,7 @@ everything should be working sound works may be
 ## Deployed at
 [https://superman60201.github.io/deltalarpers/](https://superman60201.github.io/deltalarpers/)<br>
 Want this in your own site? <br>
-should work through iframe https://katsugachi.github.io/deltarune/<br>
+should work through iframe https://superman60201.github.io/deltalarpers/<br>
 Download `deltarune.html` and add it to the directory <br>
 # Downloading
 just download deltarune.html if you want play WITH internet <br><br>
