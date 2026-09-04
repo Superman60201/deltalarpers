@@ -187,7 +187,7 @@
               const filename = relativePath;
               dbName = "/_savedata";
               storeName = "FILE_DATA";
-              key = `/_savedata/DELTARUNE/${filename}`;
+              key = `/_savedata/${filename}`;
             }
 
             if (!dbStoreMap[dbName]) dbStoreMap[dbName] = {};
@@ -214,7 +214,7 @@
             } else {
               dbName = "/_savedata";
               storeName = "FILE_DATA";
-              key = `/_savedata/DELTARUNE/${relativePath}`;
+              key = `/_savedata/${relativePath}`;
             }
 
             if (!dbStoreMap[dbName]) dbStoreMap[dbName] = {};
