@@ -1,6 +1,6 @@
-very meticulously made deltarune chapter 5 wasm webport
+very copy of it mb real owner but yeah fixed sm stuff
 ## Added Chapter 5.
-everything should be working sound works may be
+everything should be working sound works may be broken maybe
 ## Deployed at
 [https://superman60201.github.io/deltalarpers/](https://superman60201.github.io/deltalarpers/)<br>
 Want this in your own site? <br>
@@ -12,3 +12,4 @@ to play without internet, run  `git clone https://github.com/superman60201/delta
 then `cd deltarune`<br><br>
 and then `py -m http.server 4059`<br><br>
 and finally visit [http://localhost:4059/](http://localhost:4059/) on your device 
+yeah idk how it will work on chromeos so im figuring that out cuz im goated
