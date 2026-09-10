@@ -909,22 +909,38 @@ progress[value]::-webkit-progress-value {
             }
 
             let fightMusicFallback;
+            let fightMusicFallbackResource = null;
+
             function stopFightMusicFallback() {
                 if (!fightMusicFallback) return;
                 fightMusicFallback.pause();
                 fightMusicFallback.currentTime = 0;
                 fightMusicFallback = undefined;
+                fightMusicFallbackResource = null;
             }
 
             function startFightMusicFallback(resource) {
                 const requestedResource = String(resource);
                 if (!requestedResource.includes('mus/')) return;
-                if (!requestedResource.includes('rakuichi_buster_wip.ogg')) {
+
+                let targetTrack = null;
+                if (requestedResource.includes('rakuichi_buster_wip.ogg')) {
+                    targetTrack = 'mus/rakuichi_buster_wip.ogg';
+                } else if (requestedResource.includes('Flowerman_Arrangement.ogg')) {
+                    targetTrack = 'mus/Flowerman_Arrangement.ogg';
+                } else {
                     stopFightMusicFallback();
                     return;
                 }
-                if (fightMusicFallback) return;
-                fightMusicFallback = new Audio('mus/Flowerman_Arrangement.ogg');
+
+                if (fightMusicFallback && fightMusicFallbackResource === targetTrack) return;
+                if (fightMusicFallback) {
+                    fightMusicFallback.pause();
+                    fightMusicFallback.currentTime = 0;
+                }
+
+                fightMusicFallbackResource = targetTrack;
+                fightMusicFallback = new Audio(targetTrack);
                 fightMusicFallback.loop = true;
                 fightMusicFallback.volume = 1;
                 fightMusicFallback.play().catch(() => {});
