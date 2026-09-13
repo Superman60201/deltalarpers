@@ -909,38 +909,29 @@ progress[value]::-webkit-progress-value {
             }
 
             let fightMusicFallback;
-            let fightMusicFallbackResource = null;
 
             function stopFightMusicFallback() {
                 if (!fightMusicFallback) return;
                 fightMusicFallback.pause();
                 fightMusicFallback.currentTime = 0;
                 fightMusicFallback = undefined;
-                fightMusicFallbackResource = null;
             }
 
             function startFightMusicFallback(resource) {
                 const requestedResource = String(resource);
                 if (!requestedResource.includes('mus/')) return;
 
-                let targetTrack = null;
-                if (requestedResource.includes('rakuichi_buster_wip.ogg')) {
-                    targetTrack = 'mus/rakuichi_buster_wip.ogg';
-                } else if (requestedResource.includes('Flowerman_Arrangement.ogg')) {
-                    targetTrack = 'mus/Flowerman_Arrangement.ogg';
-                } else {
+                // Only arm the browser fallback when the loaded resource is the
+                // Flowerman soundtrack request. Never let generic music requests
+                // like pink.ogg or rakuichi_buster_wip.ogg start a second Audio()
+                // stream in the page.
+                if (!requestedResource.includes('Flowerman_Arrangement.ogg')) {
                     stopFightMusicFallback();
                     return;
                 }
 
-                if (fightMusicFallback && fightMusicFallbackResource === targetTrack) return;
-                if (fightMusicFallback) {
-                    fightMusicFallback.pause();
-                    fightMusicFallback.currentTime = 0;
-                }
-
-                fightMusicFallbackResource = targetTrack;
-                fightMusicFallback = new Audio(targetTrack);
+                if (fightMusicFallback) return;
+                fightMusicFallback = new Audio('mus/Flowerman_Arrangement.ogg');
                 fightMusicFallback.loop = true;
                 fightMusicFallback.volume = 1;
                 fightMusicFallback.play().catch(() => {});
