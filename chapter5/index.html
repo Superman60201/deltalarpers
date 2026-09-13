@@ -908,43 +908,6 @@ progress[value]::-webkit-progress-value {
                 return parts;
             }
 
-            let fightMusicFallback;
-
-            function stopFightMusicFallback() {
-                if (!fightMusicFallback) return;
-                fightMusicFallback.pause();
-                fightMusicFallback.currentTime = 0;
-                fightMusicFallback = undefined;
-            }
-
-            function startFightMusicFallback(resource) {
-                const requestedResource = String(resource);
-                if (!requestedResource.includes('mus/')) return;
-
-                // Only arm the browser fallback when the loaded resource is the
-                // Flowerman soundtrack request. Never let generic music requests
-                // like pink.ogg or rakuichi_buster_wip.ogg start a second Audio()
-                // stream in the page.
-                if (!requestedResource.includes('Flowerman_Arrangement.ogg')) {
-                    stopFightMusicFallback();
-                    return;
-                }
-
-                if (fightMusicFallback) return;
-                fightMusicFallback = new Audio('mus/Flowerman_Arrangement.ogg');
-                fightMusicFallback.loop = true;
-                fightMusicFallback.volume = 1;
-                fightMusicFallback.play().catch(() => {});
-            }
-
-            const originalModulePrint = Module.print;
-            Module.print = function (text) {
-                if (fightMusicFallback && String(text).includes('audio_destroy_stream')) {
-                    stopFightMusicFallback();
-                }
-                return originalModulePrint.apply(this, arguments);
-            };
-
             // Merge all 4 parts, then patch fetch/XHR and start the engine
             mergeFiles(getParts('game.unx', 1, 4)).then(async url => {
                 window.gameUnxUrl = url;
@@ -953,7 +916,6 @@ progress[value]::-webkit-progress-value {
                 const originalFetch = window.fetch;
                 window.fetch = async function (...args) {
                     let [resource, options] = args;
-                    startFightMusicFallback(resource);
                     if (typeof resource === 'string' && resource.includes('game.unx')) {
                         resource = window.gameUnxUrl;
                     } else if (resource instanceof Request && resource.url.includes('game.unx')) {
@@ -965,7 +927,6 @@ progress[value]::-webkit-progress-value {
                 // Patch XHR for the same reason
                 const originalOpen = XMLHttpRequest.prototype.open;
                 XMLHttpRequest.prototype.open = function (method, url, ...rest) {
-                    startFightMusicFallback(url);
                     if (typeof url === 'string' && url.includes('game.unx')) {
                         url = window.gameUnxUrl;
                     }
