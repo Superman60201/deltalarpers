@@ -818,9 +818,9 @@ progress[value]::-webkit-progress-value {
             function setJSExceptionHandler(exceptionHandler) { if (typeof exceptionHandler == "function") { g_pJSExceptionHandler = exceptionHandler; } }
             function hasJSExceptionHandler() { return (g_pJSExceptionHandler != undefined) && (typeof g_pJSExceptionHandler == "function"); }
             function doJSExceptionHandler(exceptionJSON) { if (typeof g_pJSExceptionHandler == "function") { var exception = JSON.parse(exceptionJSON); g_pJSExceptionHandler(exception); } }
-            const originalManifestFiles = manifestFiles;
+            const manifestFilesOriginal = manifestFilesLegacy;
             function manifestFiles() {
-                const files = originalManifestFiles();
+                const files = manifestFilesOriginal();
                 if (!files.includes("mus/Flowerman_Arrangement.ogg")) {
                     files.push("mus/Flowerman_Arrangement.ogg");
                 }
